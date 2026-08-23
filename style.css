@@ -1,0 +1,510 @@
+/* Reset */
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: #1e293b;
+    background-color: #f8fafc;
+}
+
+/* Navbar */
+.navbar {
+    min-height: 70px;
+    padding: 15px 7%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar h2 {
+    margin: 0;
+    color: #2563eb;
+    font-size: 28px;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+
+.nav-links a {
+    color: #334155;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.nav-links a:hover {
+    color: #2563eb;
+}
+
+/* General buttons */
+button {
+    padding: 11px 18px;
+
+    color: white;
+    font-weight: bold;
+
+    background-color: #2563eb;
+    border: none;
+    border-radius: 6px;
+
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background-color: #1d4ed8;
+}
+
+/* Login button */
+.login-button {
+    color: #2563eb;
+    background-color: white;
+    border: 1px solid #2563eb;
+}
+
+.login-button:hover {
+    color: white;
+    background-color: #2563eb;
+}
+
+.login-button:disabled {
+    color: #16a34a;
+    background-color: #dcfce7;
+    border-color: #16a34a;
+    cursor: default;
+}
+
+/* Hero section */
+.hero {
+    min-height: 500px;
+    padding: 110px 20px;
+
+    color: white;
+    text-align: center;
+
+    background: linear-gradient(
+        135deg,
+        #2563eb,
+        #1d4ed8
+    );
+}
+
+.hero h1 {
+    margin: 0 0 18px;
+    font-size: 48px;
+}
+
+.hero > p {
+    font-size: 18px;
+}
+
+/* Search box */
+.search-box {
+    width: 100%;
+    max-width: 700px;
+    margin: 35px auto 0;
+
+    display: flex;
+
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.18);
+}
+
+.search-box input {
+    width: 100%;
+    padding: 17px 20px;
+
+    color: #1e293b;
+    font-size: 16px;
+
+    border: none;
+    outline: none;
+}
+
+.search-box button {
+    min-width: 130px;
+    border-radius: 0;
+}
+
+#searchMessage {
+    min-height: 24px;
+    margin-top: 20px;
+
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+/* Jobs section */
+.jobs-section {
+    min-height: 450px;
+    padding: 70px 7%;
+    text-align: center;
+}
+
+.jobs-section h2 {
+    margin: 0 0 40px;
+    font-size: 34px;
+}
+
+/* Job cards container */
+.job-container {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+/* Individual job card */
+.job-card {
+    position: relative;
+
+    width: 310px;
+    padding: 25px;
+
+    display: flex;
+    flex-direction: column;
+
+    text-align: left;
+    background-color: white;
+    border-radius: 10px;
+
+    box-shadow: 0 3px 14px rgba(0, 0, 0, 0.1);
+
+    transition:
+        transform 0.3s,
+        box-shadow 0.3s;
+}
+
+.job-card:hover {
+    transform: translateY(-7px);
+
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
+}
+
+.job-card h3 {
+    margin: 8px 0 15px;
+    color: #2563eb;
+    font-size: 21px;
+}
+
+.job-card p {
+    margin: 6px 0;
+    color: #475569;
+    line-height: 1.5;
+}
+
+.job-card button {
+    width: 100%;
+    margin-top: auto;
+}
+
+/* Job type label */
+.job-type {
+    align-self: flex-start;
+
+    padding: 6px 11px;
+
+    color: #1d4ed8;
+    font-size: 13px;
+    font-weight: bold;
+
+    background-color: #dbeafe;
+    border-radius: 20px;
+}
+
+.job-description {
+    min-height: 70px;
+    padding: 8px 0;
+}
+
+/* No search results */
+.no-jobs {
+    display: none;
+
+    width: 100%;
+    max-width: 550px;
+    margin: 25px auto;
+    padding: 35px;
+
+    background-color: white;
+    border-radius: 10px;
+
+    box-shadow: 0 3px 14px rgba(0, 0, 0, 0.1);
+}
+
+.no-jobs h3 {
+    margin-top: 0;
+    color: #dc2626;
+    font-size: 24px;
+}
+
+.no-jobs p {
+    color: #64748b;
+}
+
+/* About section */
+.about-section {
+    padding: 70px 20px;
+    text-align: center;
+    background-color: #dbeafe;
+}
+
+.about-section h2 {
+    margin-top: 0;
+    font-size: 32px;
+}
+
+.about-section p {
+    max-width: 700px;
+    margin: auto;
+
+    color: #475569;
+    font-size: 18px;
+    line-height: 1.7;
+}
+
+/* Footer */
+footer {
+    padding: 20px;
+
+    color: white;
+    text-align: center;
+    background-color: #0f172a;
+}
+
+footer p {
+    margin: 0;
+}
+
+/* Login popup background */
+.login-popup {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+    background-color: rgba(15, 23, 42, 0.7);
+}
+
+.login-popup.active {
+    display: flex;
+}
+
+/* Login form */
+.login-form {
+    position: relative;
+
+    width: 100%;
+    max-width: 410px;
+    padding: 35px;
+
+    background-color: white;
+    border-radius: 12px;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+
+    animation: openPopup 0.25s ease;
+}
+
+@keyframes openPopup {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.login-form h2 {
+    margin: 0 0 8px;
+    color: #2563eb;
+    text-align: center;
+}
+
+.login-form > p {
+    margin: 0 0 25px;
+    color: #64748b;
+    text-align: center;
+}
+
+.login-form label {
+    display: block;
+    margin: 15px 0 7px;
+
+    color: #334155;
+    font-weight: bold;
+}
+
+.login-form input[type="email"],
+.login-form input[type="password"],
+.login-form input[type="text"] {
+    width: 100%;
+    padding: 13px;
+
+    color: #1e293b;
+    font-size: 16px;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    outline: none;
+}
+
+.login-form input[type="email"]:focus,
+.login-form input[type="password"]:focus,
+.login-form input[type="text"]:focus {
+    border-color: #2563eb;
+
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* Show password checkbox */
+.login-form .show-password {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    margin-top: 15px;
+
+    font-weight: normal;
+    cursor: pointer;
+}
+
+.show-password input {
+    width: auto;
+    margin: 0;
+}
+
+/* Login submit button */
+.login-submit {
+    width: 100%;
+    margin-top: 20px;
+    padding: 13px;
+
+    font-size: 16px;
+}
+
+/* Close popup button */
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+
+    padding: 0;
+
+    color: #64748b;
+    font-size: 28px;
+    line-height: 1;
+
+    background-color: transparent;
+    border: none;
+}
+
+.close-button:hover {
+    color: #dc2626;
+    background-color: transparent;
+}
+
+/* Login messages */
+#loginMessage {
+    min-height: 20px;
+    margin: 18px 0 0;
+
+    font-weight: bold;
+    text-align: center;
+}
+
+.success-message {
+    color: #16a34a;
+}
+
+.error-message {
+    color: #dc2626;
+}
+
+/* Tablet and mobile */
+@media (max-width: 700px) {
+    .navbar {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .nav-links {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .hero {
+        min-height: 450px;
+        padding: 80px 20px;
+    }
+
+    .hero h1 {
+        font-size: 35px;
+    }
+
+    .search-box {
+        flex-direction: column;
+        gap: 10px;
+
+        background-color: transparent;
+        box-shadow: none;
+        overflow: visible;
+    }
+
+    .search-box input,
+    .search-box button {
+        min-height: 50px;
+        border-radius: 6px;
+    }
+
+    .job-card {
+        width: 100%;
+    }
+
+    .login-form {
+        padding: 30px 22px;
+    }
+}
+
+@media (max-width: 450px) {
+    .navbar {
+        padding: 20px;
+    }
+
+    .nav-links {
+        flex-direction: column;
+    }
+
+    .hero h1 {
+        font-size: 29px;
+    }
+
+    .jobs-section {
+        padding: 50px 20px;
+    }
+}

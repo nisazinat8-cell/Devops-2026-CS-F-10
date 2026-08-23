@@ -1,13 +1,164 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>client</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>CareerConnect</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <h2>CareerConnect</h2>
+
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#jobs">Jobs</a>
+            <a href="#jobs">Internships</a>
+            <a href="#about">About</a>
+
+            <button
+                type="button"
+                class="login-button"
+                onclick="openLogin()"
+            >
+                Login
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero and search section -->
+    <section class="hero" id="home">
+        <h1>Find Your Dream Career</h1>
+
+        <p>
+            Search for jobs and internships in one place.
+        </p>
+
+        <div class="search-box">
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search web, Python, frontend, backend..."
+            >
+
+            <button type="button" onclick="searchJobs()">
+                Search
+            </button>
+        </div>
+
+        <p id="searchMessage"></p>
+    </section>
+
+    <!-- Jobs section -->
+    <section class="jobs-section" id="jobs">
+        <h2 id="jobsHeading">Latest Opportunities</h2>
+
+        <div class="job-container" id="jobContainer">
+            <!-- JavaScript adds the job cards here -->
+        </div>
+
+        <div class="no-jobs" id="noJobs">
+            <h3>No jobs found</h3>
+
+            <p>
+                Try searching for another job title,
+                company, location or job type.
+            </p>
+
+            <button type="button" onclick="clearSearch()">
+                View All Jobs
+            </button>
+        </div>
+    </section>
+
+    <!-- About section -->
+    <section class="about-section" id="about">
+        <h2>About CareerConnect</h2>
+
+        <p>
+            CareerConnect helps students and professionals find
+            suitable jobs and internship opportunities.
+        </p>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>
+            &copy; 2026 CareerConnect. All rights reserved.
+        </p>
+    </footer>
+
+    <!-- Login popup -->
+    <div class="login-popup" id="loginPopup">
+
+        <div class="login-form">
+            <button
+                type="button"
+                class="close-button"
+                onclick="closeLogin()"
+            >
+                &times;
+            </button>
+
+            <h2>Login</h2>
+
+            <p>
+                Login to your CareerConnect account
+            </p>
+
+            <form id="loginForm">
+
+                <label for="loginEmail">Email</label>
+
+                <input
+                    type="email"
+                    id="loginEmail"
+                    placeholder="Enter your email"
+                    required
+                >
+
+                <label for="loginPassword">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="loginPassword"
+                    placeholder="Enter your password"
+                    required
+                >
+
+                <label class="show-password">
+                    <input
+                        type="checkbox"
+                        id="showPassword"
+                    >
+
+                    Show password
+                </label>
+
+                <button
+                    type="submit"
+                    class="login-submit"
+                >
+                    Login
+                </button>
+
+                <p id="loginMessage"></p>
+            </form>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
 </html>

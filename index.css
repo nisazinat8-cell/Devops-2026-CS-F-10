@@ -1,0 +1,21 @@
+:root {
+  font-family: Arial, sans-serif;
+  color: #1e293b;
+  background-color: #f8fafc;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  min-width: 320px;
+}
