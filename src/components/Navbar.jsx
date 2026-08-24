@@ -2,23 +2,22 @@ import { useState } from "react";
 import LoginModal from "./LoginModal";
 
 function Navbar() {
-  const [showLogin, setShowLogin] =
-    useState(false);
+  const [showLogin, setShowLogin] = useState(false);
 
-  const [loggedInUser, setLoggedInUser] =
-    useState(
-      localStorage.getItem("loggedInUser")
-    );
+  const [loggedInUser, setLoggedInUser] = useState(() => {
+    return localStorage.getItem("loggedInUser");
+  });
 
   function handleLoginSuccess(email) {
+    localStorage.setItem("loggedInUser", email);
     setLoggedInUser(email);
   }
 
-  function logout() {
+  function handleLogout() {
     localStorage.removeItem("loggedInUser");
     setLoggedInUser(null);
 
-    alert("You have logged out successfully.");
+    alert("Logged out successfully.");
   }
 
   return (
@@ -33,15 +32,23 @@ function Navbar() {
           <a href="#about">About</a>
 
           {loggedInUser ? (
-            <button
-              type="button"
-              onClick={logout}
-            >
-              Logout
-            </button>
+            <>
+              <span className="userEmail">
+                {loggedInUser}
+              </span>
+
+              <button
+                type="button"
+                className="logoutButton"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+            </>
           ) : (
             <button
               type="button"
+              className="loginButton"
               onClick={() => setShowLogin(true)}
             >
               Login
