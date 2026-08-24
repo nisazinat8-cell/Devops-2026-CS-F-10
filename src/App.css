@@ -379,3 +379,22 @@ footer p {
 .logoutButton:hover {
   background-color: #b91c1c;
 }
+.statusMessage {
+  color: #2563eb;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.errorMessage {
+  max-width: 600px;
+  margin: auto;
+  padding: 15px;
+  color: #dc2626;
+  font-weight: bold;
+  background-color: #fee2e2;
+  border-radius: 6px;
+}
+
+.noResults {
+  color: #64748b;
+}
