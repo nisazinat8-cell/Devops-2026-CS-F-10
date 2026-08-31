@@ -34,7 +34,7 @@ const jobs = [
     },
     {
         title: "Java Developer",
-        company: "Software Hub",
+        company:: "Software Hub",
         location: "Bangalore",
         type: "Full Time",
         description:
@@ -51,9 +51,14 @@ const jobs = [
 ];
 
 // Required page elements
-const loginPopup = document.getElementById("loginPopup");
-const loginForm = document.getElementById("loginForm");
-const loginMessage = document.getElementById("loginMessage");
+const loginPopup =
+    document.getElementById("loginPopup");
+
+const loginForm =
+    document.getElementById("loginForm");
+
+const loginMessage =
+    document.getElementById("loginMessage");
 
 const passwordInput =
     document.getElementById("loginPassword");
@@ -121,7 +126,8 @@ function displayJobs(jobList) {
             </button>
         `;
 
-        const applyButton = card.querySelector("button");
+        const applyButton =
+            card.querySelector("button");
 
         applyButton.addEventListener(
             "click",
@@ -150,22 +156,31 @@ function searchJobs() {
         return;
     }
 
-    const filteredJobs = jobs.filter(function (job) {
-        const title = job.title.toLowerCase();
-        const company = job.company.toLowerCase();
-        const location = job.location.toLowerCase();
-        const type = job.type.toLowerCase();
-        const description =
-            job.description.toLowerCase();
+    const filteredJobs =
+        jobs.filter(function (job) {
+            const title =
+                job.title.toLowerCase();
 
-        return (
-            title.includes(searchValue) ||
-            company.includes(searchValue) ||
-            location.includes(searchValue) ||
-            type.includes(searchValue) ||
-            description.includes(searchValue)
-        );
-    });
+            const company =
+                job.company.toLowerCase();
+
+            const location =
+                job.location.toLowerCase();
+
+            const type =
+                job.type.toLowerCase();
+
+            const description =
+                job.description.toLowerCase();
+
+            return (
+                title.includes(searchValue) ||
+                company.includes(searchValue) ||
+                location.includes(searchValue) ||
+                type.includes(searchValue) ||
+                description.includes(searchValue)
+            );
+        });
 
     jobsHeading.textContent =
         'Search Results for "' +
@@ -219,8 +234,24 @@ searchInput.addEventListener(
     }
 );
 
-// Open login popup
+// Open login popup or log out
 function openLogin() {
+    const loggedInUser =
+        localStorage.getItem("loggedInUser");
+
+    // If already logged in, this button works as Logout
+    if (loggedInUser) {
+        localStorage.removeItem("loggedInUser");
+
+        alert(
+            "You have logged out successfully."
+        );
+
+        window.location.reload();
+        return;
+    }
+
+    // Otherwise, open the login popup
     loginPopup.classList.add("active");
 
     document
@@ -254,10 +285,11 @@ loginForm.addEventListener(
     function (event) {
         event.preventDefault();
 
-        const email = document
-            .getElementById("loginEmail")
-            .value
-            .trim();
+        const email =
+            document
+                .getElementById("loginEmail")
+                .value
+                .trim();
 
         const password =
             passwordInput.value.trim();
@@ -271,7 +303,10 @@ loginForm.addEventListener(
             return;
         }
 
-        if (!email.includes("@") || !email.includes(".")) {
+        if (
+            !email.includes("@") ||
+            !email.includes(".")
+        ) {
             showLoginMessage(
                 "Please enter a valid email address.",
                 "error-message"
@@ -289,6 +324,7 @@ loginForm.addEventListener(
             return;
         }
 
+        // Save logged-in user
         localStorage.setItem(
             "loggedInUser",
             email
@@ -302,10 +338,12 @@ loginForm.addEventListener(
         setTimeout(function () {
             closeLogin();
 
-            loginButton.textContent =
-                "Logged In";
+            // Change Login button to Logout
+            loginButton.textContent = "Logout";
+            loginButton.disabled = false;
 
-            loginButton.disabled = true;
+            loginButton.style.backgroundColor =
+                "#dc3545";
 
             loginForm.reset();
             passwordInput.type = "password";
@@ -344,10 +382,10 @@ document.addEventListener(
 
 // Apply for a job
 function applyJob(jobTitle) {
-    const savedUser =
+    const loggedInUser =
         localStorage.getItem("loggedInUser");
 
-    if (!savedUser) {
+    if (!loggedInUser) {
         alert(
             "Please login before applying for a job."
         );
@@ -370,15 +408,22 @@ window.addEventListener(
         // Initially display every job
         displayJobs(jobs);
 
-        // Check previous login
-        const savedUser =
+        // Check whether the user previously logged in
+        const loggedInUser =
             localStorage.getItem("loggedInUser");
 
-        if (savedUser) {
-            loginButton.textContent =
-                "Logged In";
+        if (loggedInUser) {
+            loginButton.textContent = "Logout";
+            loginButton.disabled = false;
 
-            loginButton.disabled = true;
+            loginButton.style.backgroundColor =
+                "#dc3545";
+        } else {
+            loginButton.textContent = "Login";
+            loginButton.disabled = false;
+
+            loginButton.style.backgroundColor =
+                "";
         }
     }
 );

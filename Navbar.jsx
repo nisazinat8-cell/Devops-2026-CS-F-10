@@ -1,40 +1,74 @@
 import { useState } from "react";
+import { NavLink } from "react-router-dom";
 import LoginModal from "./LoginModal";
 
 function Navbar() {
-  const [showLogin, setShowLogin] =
-    useState(false);
+  const [showLogin, setShowLogin] = useState(false);
 
-  const [loggedInUser, setLoggedInUser] =
-    useState(
-      localStorage.getItem("loggedInUser")
-    );
+  const [loggedInUser, setLoggedInUser] = useState(
+    localStorage.getItem("loggedInUser")
+  );
 
   function handleLoginSuccess(email) {
+    localStorage.setItem("loggedInUser", email);
     setLoggedInUser(email);
+    setShowLogin(false);
   }
 
   function logout() {
     localStorage.removeItem("loggedInUser");
     setLoggedInUser(null);
-
     alert("You have logged out successfully.");
   }
 
   return (
     <>
       <nav className="navbar">
-        <h2>CareerConnect</h2>
+        <NavLink to="/" className="logo">
+          CareerConnect
+        </NavLink>
 
         <div className="navLinks">
-          <a href="#home">Home</a>
-          <a href="#jobs">Jobs</a>
-          <a href="#jobs">Internships</a>
-          <a href="#about">About</a>
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              isActive ? "activeLink" : ""
+            }
+          >
+            Home
+          </NavLink>
+
+          <NavLink
+            to="/jobs"
+            className={({ isActive }) =>
+              isActive ? "activeLink" : ""
+            }
+          >
+            Jobs
+          </NavLink>
+
+          <NavLink
+            to="/internships"
+            className={({ isActive }) =>
+              isActive ? "activeLink" : ""
+            }
+          >
+            Internships
+          </NavLink>
+
+          <NavLink
+            to="/about"
+            className={({ isActive }) =>
+              isActive ? "activeLink" : ""
+            }
+          >
+            About
+          </NavLink>
 
           {loggedInUser ? (
             <button
               type="button"
+              className="logoutButton"
               onClick={logout}
             >
               Logout
@@ -42,6 +76,7 @@ function Navbar() {
           ) : (
             <button
               type="button"
+              className="loginButton"
               onClick={() => setShowLogin(true)}
             >
               Login
