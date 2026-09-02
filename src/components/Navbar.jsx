@@ -1,9 +1,9 @@
 import { useState } from "react";
+import { Link } from "react-router-dom"; 
 import LoginModal from "./LoginModal";
 
 function Navbar() {
   const [showLogin, setShowLogin] = useState(false);
-
   const [loggedInUser, setLoggedInUser] = useState(() => {
     return localStorage.getItem("loggedInUser");
   });
@@ -16,7 +16,6 @@ function Navbar() {
   function handleLogout() {
     localStorage.removeItem("loggedInUser");
     setLoggedInUser(null);
-
     alert("Logged out successfully.");
   }
 
@@ -24,19 +23,15 @@ function Navbar() {
     <>
       <nav className="navbar">
         <h2>CareerConnect</h2>
-
         <div className="navLinks">
-          <a href="#home">Home</a>
-          <a href="#jobs">Jobs</a>
-          <a href="#jobs">Internships</a>
-          <a href="#about">About</a>
+          <Link to="/">Home</Link>
+          <Link to="/jobs">Jobs</Link>
+          <Link to="/internships">Internships</Link>
+          <Link to="/about">About</Link>
 
           {loggedInUser ? (
             <>
-              <span className="userEmail">
-                {loggedInUser}
-              </span>
-
+              <span className="userEmail">{loggedInUser}</span>
               <button
                 type="button"
                 className="logoutButton"
