@@ -1,78 +1,45 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom"; 
 import LoginModal from "./LoginModal";
 
 function Navbar() {
   const [showLogin, setShowLogin] = useState(false);
-
-  const [loggedInUser, setLoggedInUser] = useState(
-    localStorage.getItem("loggedInUser")
-  );
+  const [loggedInUser, setLoggedInUser] = useState(() => {
+    return localStorage.getItem("loggedInUser");
+  });
 
   function handleLoginSuccess(email) {
     localStorage.setItem("loggedInUser", email);
     setLoggedInUser(email);
-    setShowLogin(false);
   }
 
-  function logout() {
+  function handleLogout() {
     localStorage.removeItem("loggedInUser");
     setLoggedInUser(null);
-    alert("You have logged out successfully.");
+    alert("Logged out successfully.");
   }
 
   return (
     <>
       <nav className="navbar">
-        <NavLink to="/" className="logo">
-          CareerConnect
-        </NavLink>
-
+        <h2>CareerConnect</h2>
         <div className="navLinks">
-          <NavLink
-            to="/"
-            className={({ isActive }) =>
-              isActive ? "activeLink" : ""
-            }
-          >
-            Home
-          </NavLink>
-
-          <NavLink
-            to="/jobs"
-            className={({ isActive }) =>
-              isActive ? "activeLink" : ""
-            }
-          >
-            Jobs
-          </NavLink>
-
-          <NavLink
-            to="/internships"
-            className={({ isActive }) =>
-              isActive ? "activeLink" : ""
-            }
-          >
-            Internships
-          </NavLink>
-
-          <NavLink
-            to="/about"
-            className={({ isActive }) =>
-              isActive ? "activeLink" : ""
-            }
-          >
-            About
-          </NavLink>
+          <Link to="/">Home</Link>
+          <Link to="/jobs">Jobs</Link>
+          <Link to="/internships">Internships</Link>
+          <Link to="/about">About</Link>
 
           {loggedInUser ? (
-            <button
-              type="button"
-              className="logoutButton"
-              onClick={logout}
-            >
-              Logout
-            </button>
+            <>
+              <span className="userEmail">{loggedInUser}</span>
+              <button
+                type="button"
+                className="logoutButton"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+            </>
           ) : (
             <button
               type="button"
