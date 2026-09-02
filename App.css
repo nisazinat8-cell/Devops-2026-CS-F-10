@@ -363,3 +363,20 @@ footer p {
     padding: 50px 20px;
   }
 }
+
+.userEmail {
+  max-width: 180px;
+  color: #475569;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.logoutButton {
+  background-color: #dc2626;
+}
+
+.logoutButton:hover {
+  background-color: #b91c1c;
+}
