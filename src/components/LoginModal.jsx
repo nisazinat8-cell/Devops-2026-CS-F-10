@@ -1,21 +1,11 @@
 import { useState } from "react";
 
-function LoginModal({
-  closeLogin,
-  loginSuccess,
-}) {
+function LoginModal({ closeLogin, loginSuccess }) {
   const [email, setEmail] = useState("");
-  const [password, setPassword] =
-    useState("");
-
-  const [showPassword, setShowPassword] =
-    useState(false);
-
-  const [message, setMessage] =
-    useState("");
-
-  const [messageType, setMessageType] =
-    useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState("");
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -23,44 +13,25 @@ function LoginModal({
     const cleanEmail = email.trim();
     const cleanPassword = password.trim();
 
-    if (
-      cleanEmail === "" ||
-      cleanPassword === ""
-    ) {
-      setMessage(
-        "Please enter your email and password."
-      );
-
+    if (cleanEmail === "" || cleanPassword === "") {
+      setMessage("Please enter your email and password.");
       setMessageType("error");
       return;
     }
 
-    if (
-      !cleanEmail.includes("@") ||
-      !cleanEmail.includes(".")
-    ) {
-      setMessage(
-        "Please enter a valid email address."
-      );
-
+    if (!cleanEmail.includes("@") || !cleanEmail.includes(".")) {
+      setMessage("Please enter a valid email address.");
       setMessageType("error");
       return;
     }
 
     if (cleanPassword.length < 6) {
-      setMessage(
-        "Password must contain at least 6 characters."
-      );
-
+      setMessage("Password must contain at least 6 characters.");
       setMessageType("error");
       return;
     }
 
-    localStorage.setItem(
-      "loggedInUser",
-      cleanEmail
-    );
-
+    // Sirf Navbar mein save hoga, isliye yahan se localStorage hata diya hai
     setMessage("Login successful!");
     setMessageType("success");
 
@@ -77,10 +48,7 @@ function LoginModal({
   }
 
   return (
-    <div
-      className="loginOverlay"
-      onClick={handleBackgroundClick}
-    >
+    <div className="loginOverlay" onClick={handleBackgroundClick}>
       <div className="loginModal">
         <button
           type="button"
@@ -91,71 +59,42 @@ function LoginModal({
         </button>
 
         <h2>Login</h2>
-
-        <p>
-          Login to your CareerConnect account
-        </p>
+        <p>Login to your CareerConnect account</p>
 
         <form onSubmit={handleSubmit}>
-          <label htmlFor="loginEmail">
-            Email
-          </label>
-
+          <label htmlFor="loginEmail">Email</label>
           <input
             type="email"
             id="loginEmail"
             placeholder="Enter your email"
             value={email}
-            onChange={(event) =>
-              setEmail(event.target.value)
-            }
+            onChange={(event) => setEmail(event.target.value)}
           />
 
-          <label htmlFor="loginPassword">
-            Password
-          </label>
-
+          <label htmlFor="loginPassword">Password</label>
           <input
-            type={
-              showPassword
-                ? "text"
-                : "password"
-            }
+            type={showPassword ? "text" : "password"}
             id="loginPassword"
             placeholder="Enter your password"
             value={password}
-            onChange={(event) =>
-              setPassword(event.target.value)
-            }
+            onChange={(event) => setPassword(event.target.value)}
           />
 
           <label className="showPassword">
             <input
               type="checkbox"
               checked={showPassword}
-              onChange={(event) =>
-                setShowPassword(
-                  event.target.checked
-                )
-              }
+              onChange={(event) => setShowPassword(event.target.checked)}
             />
-
             Show password
           </label>
 
-          <button
-            type="submit"
-            className="submitLogin"
-          >
+          <button type="submit" className="submitLogin">
             Login
           </button>
 
           {message && (
-            <p
-              className={`loginMessage ${messageType}`}
-            >
-              {message}
-            </p>
+            <p className={`loginMessage ${messageType}`}>{message}</p>
           )}
         </form>
       </div>
