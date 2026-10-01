@@ -1,30 +1,46 @@
-/* Reset */
+/* Reset & Base Styles */
 * {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   color: #1e293b;
   background-color: #f8fafc;
+  line-height: 1.5;
 }
 
 /* Navbar */
 .navbar {
-  min-height: 75px;
-  padding: 15px 7%;
+  min-height: 72px;
+  padding: 14px 7%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: white;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
-.navbar h2 {
-  margin: 0;
+.brandLink {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.brandIcon {
+  font-size: 26px;
+}
+
+.brandName {
   color: #2563eb;
-  font-size: 28px;
+  font-size: 24px;
+  font-weight: 700;
 }
 
 .navLinks {
@@ -34,152 +50,436 @@ body {
 }
 
 .navLinks a {
-  color: #334155;
-  font-weight: 500;
+  color: #475569;
+  font-weight: 600;
+  font-size: 15px;
   text-decoration: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
 }
 
 .navLinks a:hover {
   color: #2563eb;
+  background-color: #eff6ff;
 }
 
-/* General buttons */
+.navLinks a.activeNavLink {
+  color: #2563eb;
+  background-color: #dbeafe;
+}
+
+.userProfileBadge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: #f1f5f9;
+  padding: 6px 14px;
+  border-radius: 20px;
+}
+
+.userEmail {
+  max-width: 170px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #334155;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Buttons */
 button {
-  padding: 11px 18px;
+  padding: 10px 18px;
   color: white;
-  font-weight: bold;
+  font-weight: 600;
   background-color: #2563eb;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: all 0.2s ease;
+  font-size: 14px;
 }
 
 button:hover {
   background-color: #1d4ed8;
 }
 
-/* Hero section */
-.hero {
-  min-height: 480px;
-  padding: 110px 20px;
-  color: white;
-  text-align: center;
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.loginButton {
   background-color: #2563eb;
 }
 
+.logoutButton {
+  padding: 6px 12px;
+  font-size: 13px;
+  background-color: #ef4444;
+}
+
+.logoutButton:hover {
+  background-color: #dc2626;
+}
+
+/* Hero Section */
+.hero {
+  min-height: 480px;
+  padding: 90px 20px;
+  color: white;
+  text-align: center;
+  background: linear-gradient(135deg, #1e40af 0%, #2563eb 50%, #3b82f6 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.heroContent {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
 .hero h1 {
-  margin: 0 0 20px;
+  margin: 0 0 16px;
   font-size: 46px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
 }
 
 .hero p {
-  margin-bottom: 30px;
-  font-size: 18px;
+  margin: 0 0 35px;
+  font-size: 19px;
+  opacity: 0.95;
 }
 
-.hero input {
-  width: 100%;
-  max-width: 750px;
-  padding: 17px 20px;
-  color: #1e293b;
-  font-size: 16px;
-  background-color: white;
-  border: none;
-  border-radius: 7px;
-  outline: none;
-}
-
-.hero input:focus {
-  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.3);
-}
-
-/* Jobs section */
-.jobs {
-  min-height: 450px;
-  padding: 70px 7%;
-  text-align: center;
-}
-
-.jobs h2 {
-  margin: 0 0 40px;
-  font-size: 34px;
-}
-
-/* Job cards container */
-.jobContainer {
+.searchBox {
   display: flex;
+  gap: 10px;
+  max-width: 720px;
+  margin: 0 auto;
+  background: white;
+  padding: 6px;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.searchBox input {
+  flex: 1;
+  padding: 14px 18px;
+  font-size: 16px;
+  border: none;
+  outline: none;
+  color: #1e293b;
+  border-radius: 6px;
+}
+
+.searchBox button {
+  padding: 14px 24px;
+  font-size: 15px;
+  white-space: nowrap;
+}
+
+.quickTags {
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
   justify-content: center;
-  align-items: stretch;
-  gap: 25px;
+  gap: 10px;
   flex-wrap: wrap;
 }
 
-/* Job card */
-.jobCard {
-  width: 290px;
-  padding: 25px;
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-  background-color: white;
-  border-radius: 9px;
-  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.1);
-  transition:
-    transform 0.3s,
-    box-shadow 0.3s;
+.quickTags span {
+  font-size: 14px;
+  font-weight: 600;
+  opacity: 0.85;
 }
 
-.jobCard:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 9px 22px rgba(0, 0, 0, 0.15);
+.quickTags button {
+  padding: 5px 12px;
+  font-size: 13px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(4px);
+  border-radius: 16px;
 }
 
-.jobCard h3 {
-  margin-top: 0;
+.quickTags button:hover {
+  background: white;
   color: #2563eb;
 }
 
-.jobCard p {
-  margin: 7px 0;
-  color: #475569;
+/* Features Section */
+.featuresSection {
+  padding: 70px 7%;
+  background-color: #ffffff;
 }
 
-.jobCard button {
-  margin-top: auto;
+.featuresContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-/* About section */
-.about {
-  min-height: 250px;
-  padding: 70px 20px;
+.featureCard {
+  padding: 30px;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
   text-align: center;
-  background-color: #dbeafe;
+  transition: transform 0.2s ease;
 }
 
-.about h2 {
-  margin-top: 0;
-  font-size: 32px;
+.featureCard:hover {
+  transform: translateY(-4px);
 }
 
-.about p {
-  color: #475569;
-  font-size: 18px;
+.featureIcon {
+  font-size: 38px;
+  margin-bottom: 12px;
 }
 
-/* Footer */
-footer {
-  padding: 20px;
-  color: white;
-  text-align: center;
-  background-color: #0f172a;
+.featureCard h3 {
+  margin: 0 0 10px;
+  color: #1e293b;
+  font-size: 20px;
 }
 
-footer p {
+.featureCard p {
   margin: 0;
+  color: #64748b;
+  font-size: 15px;
 }
 
-/* Login popup background */
+/* Jobs & Internships Pages */
+.jobs.page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px 80px;
+}
+
+.pageHeader {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.pageHeader h1 {
+  margin: 0 0 10px;
+  font-size: 32px;
+  color: #1e293b;
+}
+
+.pageHeader p {
+  margin: 0;
+  color: #64748b;
+  font-size: 17px;
+}
+
+.searchAndFilter {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.pageSearch {
+  width: 100%;
+  padding: 14px 18px;
+  font-size: 15px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  outline: none;
+  background-color: white;
+}
+
+.pageSearch:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.filterChips {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.filterChip {
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  background-color: #ffffff;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+  border-radius: 20px;
+}
+
+.filterChip.active {
+  background-color: #2563eb;
+  color: white;
+  border-color: #2563eb;
+}
+
+.noticeBanner {
+  background-color: #fef3c7;
+  color: #92400e;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  margin-bottom: 20px;
+  text-align: center;
+  border: 1px solid #fde68a;
+}
+
+/* Job Cards Container */
+.jobContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 25px;
+}
+
+.jobCard {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
+}
+
+.jobCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  border-color: #bfdbfe;
+}
+
+.jobCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.jobCardHeader h3 {
+  margin: 0;
+  font-size: 20px;
+  color: #1e293b;
+}
+
+.jobTypeBadge {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+.badgeFullTime {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+.badgeInternship {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.jobCompany {
+  margin: 0 0 6px;
+  font-size: 15px;
+  color: #334155;
+}
+
+.jobLocation {
+  margin: 0 0 12px;
+  font-size: 14px;
+  color: #64748b;
+}
+
+.jobDescription {
+  margin: 0 0 20px;
+  color: #475569;
+  font-size: 14px;
+  line-height: 1.6;
+  flex-grow: 1;
+}
+
+.applyButton {
+  width: 100%;
+  padding: 11px;
+}
+
+/* About Page */
+.aboutPage {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 40px 20px 80px;
+}
+
+.aboutHeader {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.aboutHeader h1 {
+  font-size: 36px;
+  margin: 0 0 10px;
+  color: #1e293b;
+}
+
+.aboutSubtitle {
+  font-size: 18px;
+  color: #64748b;
+}
+
+.aboutContent {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.aboutCard {
+  background-color: white;
+  padding: 28px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.aboutCard h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 22px;
+  color: #2563eb;
+}
+
+.techGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.techBadge {
+  background-color: #f8fafc;
+  padding: 14px 18px;
+  border-left: 4px solid #2563eb;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #334155;
+}
+
+.academicCard {
+  background-color: #eff6ff;
+  border-color: #bfdbfe;
+}
+
+/* Login Modal */
 .loginOverlay {
   position: fixed;
   inset: 0;
@@ -188,213 +488,176 @@ footer p {
   align-items: center;
   justify-content: center;
   padding: 20px;
-  background-color: rgba(15, 23, 42, 0.72);
+  background-color: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(2px);
 }
 
-/* Login form box */
 .loginModal {
   position: relative;
   width: 100%;
-  max-width: 410px;
-  padding: 35px;
+  max-width: 420px;
+  padding: 32px;
   background-color: white;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  animation: openLogin 0.25s ease;
+  border-radius: 14px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+  animation: openLogin 0.2s ease;
 }
 
 @keyframes openLogin {
   from {
     opacity: 0;
-    transform: scale(0.9);
+    transform: scale(0.95);
   }
-
   to {
     opacity: 1;
     transform: scale(1);
   }
 }
 
-/* Login heading */
-.loginModal h2 {
-  margin: 0 0 8px;
-  color: #2563eb;
-  font-size: 28px;
-  text-align: center;
+.authTabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  background-color: #f1f5f9;
+  padding: 4px;
+  border-radius: 8px;
 }
 
-.loginModal > p {
-  margin: 0 0 25px;
+.tabButton {
+  flex: 1;
+  padding: 8px;
+  font-size: 14px;
+  background: transparent;
   color: #64748b;
+  border-radius: 6px;
+}
+
+.tabButton.activeTab {
+  background: white;
+  color: #2563eb;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.authSubtitle {
+  margin: 0 0 20px;
+  color: #64748b;
+  font-size: 14px;
   text-align: center;
 }
 
-/* Login labels */
 .loginModal label {
   display: block;
-  margin: 15px 0 7px;
+  margin: 14px 0 6px;
   color: #334155;
-  font-weight: bold;
+  font-size: 14px;
+  font-weight: 600;
 }
 
-/* Login inputs */
 .loginModal input[type="email"],
 .loginModal input[type="password"],
 .loginModal input[type="text"] {
   width: 100%;
-  padding: 13px;
-  color: #1e293b;
-  font-size: 16px;
-  background-color: white;
+  padding: 12px 14px;
+  font-size: 15px;
   border: 1px solid #cbd5e1;
-  border-radius: 6px;
+  border-radius: 8px;
   outline: none;
+  background-color: #ffffff;
 }
 
-.loginModal input[type="email"]:focus,
-.loginModal input[type="password"]:focus,
-.loginModal input[type="text"]:focus {
+.loginModal input:focus {
   border-color: #2563eb;
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
 
-/* Show password */
-.loginModal .showPassword {
+.showPassword {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin: 15px 0 0;
-  font-weight: normal;
+  margin: 14px 0 0;
+  font-size: 13px;
+  color: #64748b;
   cursor: pointer;
 }
 
-.showPassword input {
-  width: auto;
-  margin: 0;
-}
-
-/* Login submit button */
 .submitLogin {
   width: 100%;
-  margin-top: 20px;
+  margin-top: 22px;
   padding: 13px;
-  font-size: 16px;
+  font-size: 15px;
 }
 
-/* Close popup button */
 .closeButton {
   position: absolute;
-  top: 10px;
-  right: 14px;
+  top: 14px;
+  right: 16px;
+  background: transparent;
+  color: #94a3b8;
+  font-size: 26px;
   padding: 0;
-  color: #64748b;
-  font-size: 28px;
   line-height: 1;
-  background-color: transparent;
-  border: none;
 }
 
 .closeButton:hover {
-  color: #dc2626;
-  background-color: transparent;
+  color: #ef4444;
+  background: transparent;
 }
 
-/* Login messages */
 .loginMessage {
-  min-height: 20px;
-  margin: 18px 0 0;
-  font-weight: bold;
+  margin-top: 16px;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 14px;
   text-align: center;
+  font-weight: 600;
 }
 
 .loginMessage.error {
-  color: #dc2626;
+  background-color: #fee2e2;
+  color: #b91c1c;
 }
 
 .loginMessage.success {
-  color: #16a34a;
+  background-color: #dcfce7;
+  color: #15803d;
 }
 
-/* Tablet and mobile */
-@media (max-width: 700px) {
+/* Footer */
+footer {
+  padding: 24px;
+  color: #94a3b8;
+  text-align: center;
+  background-color: #0f172a;
+  font-size: 14px;
+}
+
+footer p {
+  margin: 0;
+}
+
+/* Responsive queries */
+@media (max-width: 768px) {
   .navbar {
     flex-direction: column;
-    gap: 20px;
+    gap: 15px;
+    padding: 15px 20px;
   }
 
   .navLinks {
-    justify-content: center;
     flex-wrap: wrap;
-  }
-
-  .hero {
-    min-height: 420px;
-    padding: 80px 20px;
+    justify-content: center;
+    gap: 12px;
   }
 
   .hero h1 {
     font-size: 34px;
   }
 
-  .jobCard {
-    width: 100%;
-  }
-
-  .loginModal {
-    padding: 30px 22px;
-  }
-}
-
-/* Small phones */
-@media (max-width: 450px) {
-  .navbar {
-    padding: 20px;
-  }
-
-  .navLinks {
+  .searchBox {
     flex-direction: column;
   }
 
-  .hero h1 {
-    font-size: 29px;
+  .searchBox button {
+    width: 100%;
   }
-
-  .jobs {
-    padding: 50px 20px;
-  }
-}
-.userEmail {
-  max-width: 180px;
-  color: #475569;
-  font-size: 14px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.logoutButton {
-  background-color: #dc2626;
-}
-
-.logoutButton:hover {
-  background-color: #b91c1c;
-}
-.statusMessage {
-  color: #2563eb;
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.errorMessage {
-  max-width: 600px;
-  margin: auto;
-  padding: 15px;
-  color: #dc2626;
-  font-weight: bold;
-  background-color: #fee2e2;
-  border-radius: 6px;
-}
-
-.noResults {
-  color: #64748b;
 }
