@@ -1,22 +1,29 @@
 const mongoose = require("mongoose");
 
-async function connectDB() {
-  const uri = process.env.MONGO_URI;
+let isConnected = false;
 
-  if (!uri) {
-    console.error(
-      "MONGO_URI is not set. Add it to your .env file."
-    );
-    process.exit(1);
-  }
+async function connectDB() {
+  const uri =
+    process.env.MONGO_URI ||
+    "mongodb://127.0.0.1:27017/careerconnect";
 
   try {
-    await mongoose.connect(uri);
+    await mongoose.connect(uri, {
+      serverSelectionTimeoutMS: 2000,
+    });
+    isConnected = true;
     console.log("MongoDB connected:", mongoose.connection.name);
   } catch (error) {
-    console.error("MongoDB connection failed:", error.message);
-    process.exit(1);
+    isConnected = false;
+    console.warn("⚠️ MongoDB connection notice:", error.message);
+    console.warn(
+      "Server will continue running. For full database persistence, ensure MongoDB is started or set MONGO_URI in .env."
+    );
   }
 }
 
-module.exports = connectDB;
+function isDBConnected() {
+  return isConnected && mongoose.connection.readyState === 1;
+}
+
+module.exports = { connectDB, isDBConnected };

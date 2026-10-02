@@ -1,37 +1,51 @@
 import { useState } from "react";
-import { Link } from "react-router-dom"; 
+import { Link, useLocation } from "react-router-dom";
 import LoginModal from "./LoginModal";
 
 function Navbar() {
   const [showLogin, setShowLogin] = useState(false);
+  const location = useLocation();
   const [loggedInUser, setLoggedInUser] = useState(() => {
     return localStorage.getItem("loggedInUser");
   });
 
   function handleLoginSuccess(email) {
-    localStorage.setItem("loggedInUser", email);
     setLoggedInUser(email);
   }
 
   function handleLogout() {
     localStorage.removeItem("loggedInUser");
+    localStorage.removeItem("token");
     setLoggedInUser(null);
-    alert("Logged out successfully.");
   }
 
   return (
     <>
       <nav className="navbar">
-        <h2>CareerConnect</h2>
+        <Link to="/" className="brandLink">
+          <span className="brandIcon">💼</span>
+          <span className="brandName">CareerConnect</span>
+        </Link>
+
         <div className="navLinks">
-          <Link to="/">Home</Link>
-          <Link to="/jobs">Jobs</Link>
-          <Link to="/internships">Internships</Link>
-          <Link to="/about">About</Link>
+          <Link to="/" className={location.pathname === "/" ? "activeNavLink" : ""}>
+            Home
+          </Link>
+          <Link to="/jobs" className={location.pathname === "/jobs" ? "activeNavLink" : ""}>
+            Jobs
+          </Link>
+          <Link to="/internships" className={location.pathname === "/internships" ? "activeNavLink" : ""}>
+            Internships
+          </Link>
+          <Link to="/about" className={location.pathname === "/about" ? "activeNavLink" : ""}>
+            About
+          </Link>
 
           {loggedInUser ? (
-            <>
-              <span className="userEmail">{loggedInUser}</span>
+            <div className="userProfileBadge">
+              <span className="userEmail" title={loggedInUser}>
+                👤 {loggedInUser}
+              </span>
               <button
                 type="button"
                 className="logoutButton"
@@ -39,14 +53,14 @@ function Navbar() {
               >
                 Logout
               </button>
-            </>
+            </div>
           ) : (
             <button
               type="button"
               className="loginButton"
               onClick={() => setShowLogin(true)}
             >
-              Login
+              Sign In
             </button>
           )}
         </div>

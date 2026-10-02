@@ -1,0 +1,42 @@
+services:
+  mongodb:
+    image: mongo:6
+    container_name: careerconnect_db
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: careerconnect
+    volumes:
+      - mongo-data:/data/db
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    container_name: careerconnect_backend
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      PORT: 5000
+      MONGO_URI: mongodb://mongodb:27017/careerconnect
+      JWT_SECRET: supersecretjwtkey_careerconnect_2026
+      NODE_ENV: production
+    depends_on:
+      - mongodb
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.client
+    container_name: careerconnect_frontend
+    restart: always
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+volumes:
+  mongo-data:
+    driver: local
