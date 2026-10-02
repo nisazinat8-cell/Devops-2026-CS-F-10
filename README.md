@@ -6,31 +6,40 @@
 [![Docker](https://img.shields.io/badge/Docker-Enabled-2496ED.svg)](https://www.docker.com/)
 [![Kubernetes](https://img.shields.io/badge/Kubernetes-Ready-326CE5.svg)](https://kubernetes.io/)
 
-**CareerConnect** is an enterprise-grade full-stack job and internship discovery portal. Built as a comprehensive academic and laboratory demonstration for **Swami Keshvanand Institute of Technology, Management & Gramothan (SKIT), Jaipur — Department of Computer Science & Engineering**.
+**CareerConnect** is a full-stack job and internship discovery portal that helps users explore opportunities through a modern React interface backed by a secure Node.js and Express API.
 
-This repository is aligned directly with both:
-1. **Full Stack Development (CSUL504)**
-2. **DevOps Practices & Principles (CSUL511)**
+The project includes authentication, job and internship listings, database integration, automated testing, containerized deployment, Kubernetes manifests, and application observability.
 
 ---
 
-## 📑 Syllabus & Course Alignment
+## ✨ Features
 
-### 1. Full Stack Development (CSUL504)
-| Module | Curriculum Topics | Project Implementation |
-| :--- | :--- | :--- |
-| **Module 2 & 3** | HTML5, CSS3, DOM manipulation, ES6, Fetch API | Clean semantic layout, responsive styling, asynchronous API integration, and historical DOM baseline in [`legacy_vanilla/`](./legacy_vanilla). |
-| **Module 4** | ReactJS, Functional Components, React Router, Forms, Client-Server Communication | Modern React 19 SPA (`App.jsx`, `Navbar.jsx`, `LoginModal.jsx`, `JobListings.jsx`, `Internships.jsx`, `About.jsx`) using React Router v7. |
-| **Module 5** | Node.js, Express.js, RESTful APIs, Middleware, Security | Modular Express backend in [`server/`](./server) with CORS, JSON body parser, request metrics counter, and JWT authentication middleware. |
-| **Module 6** | MongoDB & Mongoose Integration, CRUD, Password Hashing | `Job` and `User` Mongoose models, bcrypt password encryption, database connection with graceful offline fallback, and database seeding script. |
+- Browse job and internship opportunities.
+- User authentication with JWT and encrypted passwords.
+- RESTful backend API built with Node.js and Express.
+- MongoDB persistence through Mongoose.
+- Responsive React 19 single-page application.
+- Prometheus-compatible application metrics.
+- Automated API tests and frontend production builds.
+- Docker Compose support for local multi-container development.
+- Kubernetes manifests with deployments, services, and health probes.
+- CI/CD automation through GitHub Actions and Jenkins.
 
-### 2. DevOps Practices & Principles (CSUL511)
-| Module | Curriculum Topics | Project Implementation |
-| :--- | :--- | :--- |
-| **Module 3** | Version Control Systems (Git) | Branching strategy on `master`, structured commit history, and comprehensive `.gitignore`. |
-| **Module 4** | Continuous Integration & Jenkins Build Automation | Automated Node test suite (`server/test/api.test.js`), GitHub Actions workflow ([`.github/workflows/ci.yml`](./.github/workflows/ci.yml)), and production Declarative Pipeline ([`Jenkinsfile`](./Jenkinsfile)). |
-| **Module 5** | Containerization & Continuous Deployment (Docker) | Multi-stage [`Dockerfile.client`](./Dockerfile.client) (Nginx + Vite React), [`Dockerfile.server`](./Dockerfile.server) (Node 20 Alpine), and multi-container orchestration in [`docker-compose.yml`](./docker-compose.yml). |
-| **Module 6** | Kubernetes Fundamentals & Observability (Prometheus) | Production Kubernetes manifests in [`k8s/`](./k8s) (Deployments, Services, Probes) and Prometheus metrics exporter at `GET /api/metrics`. |
+---
+
+## 🛠️ Technology Stack
+
+| Layer | Technologies |
+| :--- | :--- |
+| **Frontend** | React 19, Vite, JavaScript, CSS |
+| **Backend** | Node.js 20, Express.js, REST APIs |
+| **Database** | MongoDB, Mongoose |
+| **Authentication** | JWT, bcrypt |
+| **Testing** | Node test suite and API integration tests |
+| **Containers** | Docker, Docker Compose, Nginx |
+| **Deployment** | Kubernetes |
+| **CI/CD** | GitHub Actions, Jenkins |
+| **Observability** | Prometheus metrics exporter |
 
 ---
 
@@ -59,9 +68,10 @@ This repository is aligned directly with both:
 
 ## 🚀 Running the Project
 
-### Option A: Local Development (Native Node.js)
+### Option A: Local Development
 
-#### 1. Start Backend API Server
+#### 1. Start the Backend API Server
+
 ```bash
 cd server
 cp .env.example .env
@@ -70,9 +80,10 @@ npm run dev
 # Server will run at http://localhost:5000
 ```
 
-#### 2. Start Frontend React Application
+#### 2. Start the Frontend React Application
+
 ```bash
-# In project root
+# In the project root
 npm install
 npm run dev
 # Vite dev server will run at http://localhost:5173
@@ -80,74 +91,108 @@ npm run dev
 
 ---
 
-### Option B: Docker Compose (Recommended One-Click Setup)
-Runs MongoDB, Express REST API, and Nginx-powered React Frontend together in isolated containers:
+### Option B: Docker Compose
+
+Docker Compose runs MongoDB, the Express API, and the Nginx-powered React frontend together:
 
 ```bash
 docker compose up --build
 ```
+
+Available services:
+
 - **Frontend UI:** [http://localhost:3000](http://localhost:3000)
 - **Backend API:** [http://localhost:5000/api/health](http://localhost:5000/api/health)
 - **Prometheus Metrics:** [http://localhost:5000/api/metrics](http://localhost:5000/api/metrics)
 - **MongoDB Database:** `localhost:27017`
 
 To stop the containers:
+
 ```bash
 docker compose down
 ```
 
 ---
 
-### Option C: Kubernetes Cluster Deployment
-Kubernetes manifests with deployments, services, and health probes are provided under [`k8s/`](./k8s):
+### Option C: Kubernetes Deployment
+
+Kubernetes manifests for the application are available in [`k8s/`](./k8s):
 
 ```bash
-# Create namespace
+# Create the namespace
 kubectl apply -f k8s/namespace.yaml
 
 # Deploy MongoDB
 kubectl apply -f k8s/mongodb-deployment.yaml
 
-# Deploy Backend API & Frontend SPA
+# Deploy the backend API and frontend SPA
 kubectl apply -f k8s/backend-deployment.yaml
 kubectl apply -f k8s/frontend-deployment.yaml
 
-# Check cluster pod status
+# Check pod status
 kubectl get pods -n careerconnect
 ```
 
 ---
 
-## 🧪 Testing & Quality Assurance
+## 🧪 Testing and Builds
 
-Run the automated backend test suite (unit and integration tests verifying health check, jobs query, auth validation, and Prometheus metrics):
+Run the automated backend test suite:
 
 ```bash
-# Run tests from root
+# Run tests from the project root
 npm test
 
-# Or run tests directly in server directory
+# Or run tests directly in the server directory
 cd server && npm test
 ```
 
-Build verification for production:
+Create a production frontend build:
+
 ```bash
 npm run build
 ```
+
+The test suite covers core API behavior, including health checks, job queries, authentication validation, and metrics output.
 
 ---
 
 ## 🔄 CI/CD Automation
 
-1. **GitHub Actions ([`.github/workflows/ci.yml`](./.github/workflows/ci.yml)):**
-   - Triggers on every push & pull request to `master` and `main`.
-   - Runs automated API test runner.
-   - Builds frontend production distribution.
-   - Verifies Docker multi-stage container builds.
-2. **Weekly Academic Report Automation ([`.github/workflows/auto_monthly_report.yml`](./.github/workflows/auto_monthly_report.yml)):**
-   - Scheduled Saturday night workflow generating official SKIT Form-3 commit progress PDFs.
-3. **Jenkins Declarative Pipeline ([`Jenkinsfile`](./Jenkinsfile)):**
-   - Multi-stage pipeline covering Checkout, Dependency Installation, Unit Testing, Vite Build, and Docker Image Creation.
+### GitHub Actions
+
+The workflow in [`.github/workflows/ci.yml`](./.github/workflows/ci.yml):
+
+- Runs on pushes and pull requests.
+- Executes the automated API test suite.
+- Builds the frontend production distribution.
+- Verifies Docker multi-stage container builds.
+
+### Jenkins
+
+The [`Jenkinsfile`](./Jenkinsfile) defines a declarative pipeline covering:
+
+- Source checkout.
+- Dependency installation.
+- Unit and integration testing.
+- Frontend production builds.
+- Docker image creation.
+
+---
+
+## 📁 Repository Structure
+
+```text
+.
+├── .github/workflows/   # GitHub Actions workflows
+├── client components     # React application components and pages
+├── k8s/                  # Kubernetes manifests
+├── server/               # Express API, models, routes, and tests
+├── Dockerfile.client     # Frontend container definition
+├── Dockerfile.server     # Backend container definition
+├── Jenkinsfile           # Jenkins pipeline
+└── docker-compose.yml    # Local multi-container setup
+```
 
 ---
 
@@ -156,6 +201,3 @@ npm run build
 - **Yuvraaj Sengar**
 - **Kashish Bhati**
 - **Zinat Nisa**
-
-**Department of Computer Science & Engineering**  
-Swami Keshvanand Institute of Technology, Management & Gramothan (SKIT), Jaipur
