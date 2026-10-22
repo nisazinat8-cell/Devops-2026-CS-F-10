@@ -18,8 +18,8 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 echo 'Installing root and server dependencies...'
-                sh 'npm ci --include=dev'
-                sh 'npm --prefix server ci'
+                sh 'npm install'
+                sh 'npm --prefix server install'
             }
         }
 
