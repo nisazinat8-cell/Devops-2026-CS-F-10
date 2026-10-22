@@ -3,7 +3,6 @@ pipeline {
 
     environment {
         CI = 'true'
-        NODE_ENV = 'production'
         DOCKER_IMAGE_BACKEND = 'careerconnect-backend:latest'
         DOCKER_IMAGE_FRONTEND = 'careerconnect-frontend:latest'
     }
@@ -19,7 +18,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 echo 'Installing root and server dependencies...'
-                sh 'npm ci'
+                sh 'npm ci --include=dev'
                 sh 'npm --prefix server ci'
             }
         }
