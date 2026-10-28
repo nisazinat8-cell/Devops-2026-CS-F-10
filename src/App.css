@@ -729,3 +729,102 @@ a:focus-visible {
   outline: 3px solid rgba(124, 58, 237, 0.4);
   outline-offset: 2px;
 }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.hero h1, .hero p { animation: fadeUp 0.7s ease backwards; }
+.hero p { animation-delay: 0.15s; }
+
+.jobCard, .featureCard, .aboutCard { animation: fadeUp 0.5s ease backwards; }
+.jobCard:nth-child(2) { animation-delay: 0.08s; }
+.jobCard:nth-child(3) { animation-delay: 0.16s; }
+.jobCard:nth-child(4) { animation-delay: 0.24s; }
+/* ---------- Job list additions ---------- */
+.resultsBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.resultsCount {
+  margin: 0;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.sortSelect {
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #334155;
+  background: white;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.jobCardActions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.saveButton {
+  padding: 2px 6px;
+  font-size: 22px;
+  line-height: 1;
+  color: #94a3b8;
+  background: transparent;
+  border-radius: 6px;
+}
+
+.saveButton:hover {
+  color: #ef4444;
+  background: transparent;
+  transform: scale(1.15);
+}
+
+.saveButton.saved {
+  color: #ef4444;
+}
+
+.jobSalary,
+.jobPosted {
+  margin: 0 0 6px;
+  font-size: 14px;
+  color: #64748b;
+}
+
+.jobSalary {
+  color: #15803d;
+  font-weight: 600;
+}
+
+.statusMessage {
+  text-align: center;
+  color: #64748b;
+  padding: 40px 0;
+}
+
+.noResults {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 50px 20px;
+  background: white;
+  border: 1px dashed #cbd5e1;
+  border-radius: 12px;
+}
+
+.noResults h3 {
+  margin: 0 0 8px;
+}
+
+.noResults p {
+  margin: 0 0 18px;
+  color: #64748b;
+}
