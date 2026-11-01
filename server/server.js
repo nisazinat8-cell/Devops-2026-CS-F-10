@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
+const promClient = require("prom-client");
 
 const { connectDB, isDBConnected } = require("./config/db");
 const jobRoutes = require("./routes/jobs");
@@ -10,9 +11,25 @@ const authRoutes = require("./routes/auth");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Metric counters for Prometheus (DevOps Module 6: Observability & Metrics)
-let totalRequests = 0;
-let routeHitCounts = {};
+// Initialize prom-client default metrics for NodeJS Application Dashboard (ID 11159)
+promClient.collectDefaultMetrics({ register: promClient.register });
+
+// Custom metric gauges & counters for CareerConnect
+const customRequestsCounter = new promClient.Counter({
+  name: "careerconnect_requests_total",
+  help: "Total number of HTTP requests received",
+});
+
+const customUptimeGauge = new promClient.Gauge({
+  name: "careerconnect_uptime_seconds",
+  help: "Process uptime in seconds",
+});
+
+const customDbGauge = new promClient.Gauge({
+  name: "careerconnect_database_connected",
+  help: "Status of MongoDB connection (1 = connected, 0 = fallback)",
+});
+
 const startTime = Date.now();
 
 app.use(cors());
@@ -20,9 +37,7 @@ app.use(express.json());
 
 // Metrics collection middleware
 app.use((req, res, next) => {
-  totalRequests++;
-  const route = req.path;
-  routeHitCounts[route] = (routeHitCounts[route] || 0) + 1;
+  customRequestsCounter.inc();
   next();
 });
 
@@ -41,30 +56,16 @@ app.get("/api/health", (req, res) => {
 });
 
 // Prometheus Metrics Endpoint (DevOps Module 6: Prometheus & Grafana)
-app.get("/api/metrics", (req, res) => {
-  const uptimeSeconds = ((Date.now() - startTime) / 1000).toFixed(2);
-  const mem = process.memoryUsage();
-  const dbStatus = isDBConnected() ? 1 : 0;
+app.get("/api/metrics", async (req, res) => {
+  try {
+    customUptimeGauge.set(Math.floor((Date.now() - startTime) / 1000));
+    customDbGauge.set(isDBConnected() ? 1 : 0);
 
-  let metrics = `# HELP careerconnect_requests_total Total number of HTTP requests received
-# TYPE careerconnect_requests_total counter
-careerconnect_requests_total ${totalRequests}
-
-# HELP careerconnect_uptime_seconds Process uptime in seconds
-# TYPE careerconnect_uptime_seconds gauge
-careerconnect_uptime_seconds ${uptimeSeconds}
-
-# HELP careerconnect_database_connected Status of MongoDB connection (1 = connected, 0 = fallback)
-# TYPE careerconnect_database_connected gauge
-careerconnect_database_connected ${dbStatus}
-
-# HELP careerconnect_memory_heap_used_bytes Memory heap used in bytes
-# TYPE careerconnect_memory_heap_used_bytes gauge
-careerconnect_memory_heap_used_bytes ${mem.heapUsed}
-`;
-
-  res.set("Content-Type", "text/plain; version=0.0.4");
-  res.send(metrics);
+    res.set("Content-Type", promClient.register.contentType);
+    res.end(await promClient.register.metrics());
+  } catch (err) {
+    res.status(500).end(err.message);
+  }
 });
 
 // Mount Routes

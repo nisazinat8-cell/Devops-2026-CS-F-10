@@ -1,6 +1,7 @@
 const test = require("node:test");
 const assert = require("node:assert");
 const http = require("node:http");
+const mongoose = require("mongoose");
 const { app } = require("../server");
 
 // Helper to make local HTTP requests to the Express app
@@ -93,10 +94,19 @@ test("CareerConnect Backend API Tests", async (t) => {
   });
 
   await t.test("POST /api/auth/login with valid format returns token", async () => {
+    const testEmail = `student_${Date.now()}@skit.ac.in`;
+    const testPassword = "password123";
+
+    await makeRequest({
+      method: "POST",
+      path: "/api/auth/register",
+      body: { email: testEmail, password: testPassword },
+    });
+
     const res = await makeRequest({
       method: "POST",
       path: "/api/auth/login",
-      body: { email: "student@skit.ac.in", password: "password123" },
+      body: { email: testEmail, password: testPassword },
     });
     assert.strictEqual(res.status, 200);
     assert.strictEqual(res.body.success, true);
@@ -108,5 +118,11 @@ test("CareerConnect Backend API Tests", async (t) => {
     assert.strictEqual(res.status, 200);
     assert.ok(res.raw.includes("careerconnect_requests_total"));
     assert.ok(res.raw.includes("careerconnect_uptime_seconds"));
+  });
+
+  t.after(async () => {
+    if (mongoose.connection && mongoose.connection.readyState !== 0) {
+      await mongoose.disconnect();
+    }
   });
 });

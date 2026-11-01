@@ -53,7 +53,7 @@ services:
     container_name: careerconnect_grafana
     restart: always
     ports:
-      - "3001:3000"
+      - "11159:3000"
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin
