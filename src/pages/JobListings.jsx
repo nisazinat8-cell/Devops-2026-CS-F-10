@@ -8,6 +8,8 @@ const defaultFallbackJobs = [
     company: "Tech Mahindra",
     location: "Jaipur",
     type: "Full Time",
+    salary: "₹6–10 LPA",
+    postedDaysAgo: 1,
     description: "Build robust MERN applications with modern React & Node.js.",
   },
   {
@@ -16,6 +18,8 @@ const defaultFallbackJobs = [
     company: "CloudScale Systems",
     location: "Remote",
     type: "Internship",
+    salary: "₹15,000 / month",
+    postedDaysAgo: 0,
     description: "Automate CI/CD pipelines with GitHub Actions, Jenkins, and Docker.",
   },
   {
@@ -24,6 +28,8 @@ const defaultFallbackJobs = [
     company: "Infosys",
     location: "Bangalore",
     type: "Full Time",
+    salary: "₹5–8 LPA",
+    postedDaysAgo: 3,
     description: "Design responsive Single Page Applications using React 19 and modern CSS.",
   },
   {
@@ -32,6 +38,8 @@ const defaultFallbackJobs = [
     company: "DataWorks AI",
     location: "Delhi NCR",
     type: "Internship",
+    salary: "₹12,000 / month",
+    postedDaysAgo: 5,
     description: "Analyze datasets, build ML models, and integrate REST APIs.",
   },
   {
@@ -40,9 +48,21 @@ const defaultFallbackJobs = [
     company: "Zomato",
     location: "Gurugram",
     type: "Full Time",
+    salary: "₹8–14 LPA",
+    postedDaysAgo: 2,
     description: "Architect high-performance microservices, REST APIs, and MongoDB schemas.",
   },
 ];
+
+function formatPosted(days) {
+  if (days === 0) return "Posted today";
+  if (days === 1) return "Posted yesterday";
+  return `Posted ${days} days ago`;
+}
+
+function getJobId(job) {
+  return job._id || job.id || job.title;
+}
 
 function Jobs() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -51,14 +71,29 @@ function Jobs() {
   const [jobs, setJobs] = useState([]);
   const [search, setSearch] = useState(initialQuery);
   const [selectedType, setSelectedType] = useState("All");
+  const [sortBy, setSortBy] = useState("default");
   const [loading, setLoading] = useState(true);
   const [apiNotice, setApiNotice] = useState("");
+
+  const [savedIds, setSavedIds] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem("savedJobs")) || [];
+    } catch {
+      return [];
+    }
+  });
 
   useEffect(() => {
     setSearch(initialQuery);
   }, [initialQuery]);
 
   useEffect(() => {
+    localStorage.setItem("savedJobs", JSON.stringify(savedIds));
+  }, [savedIds]);
+
+  useEffect(() => {
+    let cancelled = false;
+
     async function fetchJobs() {
       setLoading(true);
       try {
@@ -72,9 +107,13 @@ function Jobs() {
         }
 
         const data = await response.json();
+        if (cancelled) return;
         setJobs(data.jobs || []);
         setApiNotice("");
       } catch (fetchError) {
+        if (cancelled) return;
+        console.warn("Backend unavailable, using fallback jobs:", fetchError);
+
         // Fallback for offline demo mode
         let filtered = defaultFallbackJobs;
         if (search) {
@@ -90,17 +129,39 @@ function Jobs() {
         setJobs(filtered);
         setApiNotice("Displaying cached catalog (backend offline/demo mode).");
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     }
 
-    fetchJobs();
+    // Wait 300ms after the user stops typing before calling the server
+    const timer = setTimeout(fetchJobs, 300);
+
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
   }, [search]);
 
   const filteredJobs = jobs.filter((job) => {
     if (selectedType === "All") return true;
+    if (selectedType === "Saved") return savedIds.includes(getJobId(job));
     return (job.type || "").toLowerCase().includes(selectedType.toLowerCase());
   });
+
+  const sortedJobs = [...filteredJobs].sort((a, b) => {
+    if (sortBy === "title") return a.title.localeCompare(b.title);
+    if (sortBy === "company") return a.company.localeCompare(b.company);
+    if (sortBy === "newest") {
+      return (a.postedDaysAgo ?? 999) - (b.postedDaysAgo ?? 999);
+    }
+    return 0;
+  });
+
+  function toggleSave(id) {
+    setSavedIds((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+    );
+  }
 
   function applyJob(jobTitle, company) {
     const loggedInUser = localStorage.getItem("loggedInUser");
@@ -138,14 +199,14 @@ function Jobs() {
         />
 
         <div className="filterChips">
-          {["All", "Full Time", "Internship"].map((type) => (
+          {["All", "Full Time", "Internship", "Saved"].map((type) => (
             <button
               key={type}
               type="button"
               className={`filterChip ${selectedType === type ? "active" : ""}`}
               onClick={() => setSelectedType(type)}
             >
-              {type}
+              {type === "Saved" ? `♥ Saved (${savedIds.length})` : type}
             </button>
           ))}
         </div>
@@ -156,51 +217,95 @@ function Jobs() {
       {loading && <p className="statusMessage">Loading opportunities...</p>}
 
       {!loading && (
-        <div className="jobContainer">
-          {filteredJobs.length > 0 ? (
-            filteredJobs.map((job) => (
-              <div className="jobCard" key={job._id || job.id || job.title}>
-                <div className="jobCardHeader">
-                  <h3>{job.title}</h3>
-                  <span className={`jobTypeBadge ${job.type === "Internship" ? "badgeInternship" : "badgeFullTime"}`}>
-                    {job.type || "Full Time"}
-                  </span>
-                </div>
+        <>
+          <div className="resultsBar">
+            <p className="resultsCount">
+              Showing {sortedJobs.length}{" "}
+              {sortedJobs.length === 1 ? "opportunity" : "opportunities"}
+            </p>
 
-                <p className="jobCompany">
-                  🏢 <strong>{job.company}</strong>
-                </p>
-                <p className="jobLocation">
-                  📍 {job.location}
-                </p>
-                <p className="jobDescription">{job.description}</p>
+            <select
+              className="sortSelect"
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              aria-label="Sort jobs"
+            >
+              <option value="default">Sort: Default</option>
+              <option value="newest">Sort: Newest first</option>
+              <option value="title">Sort: Title A–Z</option>
+              <option value="company">Sort: Company A–Z</option>
+            </select>
+          </div>
 
+          <div className="jobContainer">
+            {sortedJobs.length > 0 ? (
+              sortedJobs.map((job) => {
+                const id = getJobId(job);
+                const isSaved = savedIds.includes(id);
+
+                return (
+                  <div className="jobCard" key={id}>
+                    <div className="jobCardHeader">
+                      <h3>{job.title}</h3>
+                      <div className="jobCardActions">
+                        <span
+                          className={`jobTypeBadge ${
+                            job.type === "Internship" ? "badgeInternship" : "badgeFullTime"
+                          }`}
+                        >
+                          {job.type || "Full Time"}
+                        </span>
+                        <button
+                          type="button"
+                          className={`saveButton ${isSaved ? "saved" : ""}`}
+                          onClick={() => toggleSave(id)}
+                          aria-label={isSaved ? "Remove from saved jobs" : "Save this job"}
+                          title={isSaved ? "Remove from saved" : "Save job"}
+                        >
+                          {isSaved ? "♥" : "♡"}
+                        </button>
+                      </div>
+                    </div>
+
+                    <p className="jobCompany">
+                      🏢 <strong>{job.company}</strong>
+                    </p>
+                    <p className="jobLocation">📍 {job.location}</p>
+                    {job.salary && <p className="jobSalary">💰 {job.salary}</p>}
+                    {job.postedDaysAgo !== undefined && (
+                      <p className="jobPosted">🕒 {formatPosted(job.postedDaysAgo)}</p>
+                    )}
+                    <p className="jobDescription">{job.description}</p>
+
+                    <button
+                      type="button"
+                      className="applyButton"
+                      onClick={() => applyJob(job.title, job.company)}
+                    >
+                      Apply Now
+                    </button>
+                  </div>
+                );
+              })
+            ) : (
+              <div className="noResults">
+                <h3>No matching opportunities found</h3>
+                <p>Try searching for a different skill or clearing your filters.</p>
                 <button
                   type="button"
-                  className="applyButton"
-                  onClick={() => applyJob(job.title, job.company)}
+                  onClick={() => {
+                    setSearch("");
+                    setSelectedType("All");
+                    setSortBy("default");
+                    setSearchParams({});
+                  }}
                 >
-                  Apply Now
+                  Reset Search
                 </button>
               </div>
-            ))
-          ) : (
-            <div className="noResults">
-              <h3>No matching opportunities found</h3>
-              <p>Try searching for a different skill or clearing your filters.</p>
-              <button
-                type="button"
-                onClick={() => {
-                  setSearch("");
-                  setSelectedType("All");
-                  setSearchParams({});
-                }}
-              >
-                Reset Search
-              </button>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        </>
       )}
     </main>
   );
