@@ -2,6 +2,8 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
+const fs = require("fs");
 const promClient = require("prom-client");
 
 const { connectDB, isDBConnected } = require("./config/db");
@@ -72,7 +74,19 @@ app.get("/api/metrics", async (req, res) => {
 app.use("/api/jobs", jobRoutes);
 app.use("/api/auth", authRoutes);
 
-// 404 Route Handler
+// Serve frontend static assets if built (Single Web Service deployment e.g. on Render)
+const distPath = path.join(__dirname, "../dist");
+if (fs.existsSync(distPath)) {
+  app.use(express.static(distPath));
+  app.use((req, res, next) => {
+    if (req.method === "GET" && !req.path.startsWith("/api")) {
+      return res.sendFile(path.join(distPath, "index.html"));
+    }
+    next();
+  });
+}
+
+// 404 Route Handler for unmatched API routes
 app.use((req, res) => {
   res.status(404).json({
     success: false,

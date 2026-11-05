@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { API_BASE_URL } from "../config/api";
 
 const starterInternships = [
   {
@@ -47,7 +48,7 @@ function Internships() {
   useEffect(() => {
     async function loadData() {
       try {
-        const res = await fetch("http://localhost:5000/api/jobs?search=internship", {
+        const res = await fetch(`${API_BASE_URL}/api/jobs?search=internship`, {
           signal: AbortSignal.timeout(2000),
         });
         if (res.ok) {

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { API_BASE_URL } from "../config/api";
 
 const defaultFallbackJobs = [
   {
@@ -98,7 +99,7 @@ function Jobs() {
       setLoading(true);
       try {
         const queryParam = search ? `?search=${encodeURIComponent(search)}` : "";
-        const response = await fetch(`http://localhost:5000/api/jobs${queryParam}`, {
+        const response = await fetch(`${API_BASE_URL}/api/jobs${queryParam}`, {
           signal: AbortSignal.timeout(2500),
         });
 

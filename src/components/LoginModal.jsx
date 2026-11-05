@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { API_BASE_URL } from "../config/api";
 
 function LoginModal({ closeLogin, loginSuccess }) {
   const [isRegister, setIsRegister] = useState(false);
@@ -37,8 +38,8 @@ function LoginModal({ closeLogin, loginSuccess }) {
     setMessage("");
 
     const endpoint = isRegister
-      ? "http://localhost:5000/api/auth/register"
-      : "http://localhost:5000/api/auth/login";
+      ? `${API_BASE_URL}/api/auth/register`
+      : `${API_BASE_URL}/api/auth/login`;
 
     try {
       const response = await fetch(endpoint, {

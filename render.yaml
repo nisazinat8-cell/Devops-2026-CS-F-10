@@ -1,0 +1,20 @@
+# Render Blueprint Specification for CareerConnect
+# https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: careerconnect
+    runtime: node
+    plan: free
+    region: oregon
+    buildCommand: npm run render-build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      # Optional: Add your MongoDB Atlas connection string here or in Render Dashboard
+      # - key: MONGO_URI
+      #   value: mongodb+srv://<user>:<password>@cluster0.mongodb.net/careerconnect?retryWrites=true&w=majority

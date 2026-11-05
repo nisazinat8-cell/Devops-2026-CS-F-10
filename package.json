@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "npx vite build",
     "preview": "vite preview",
-    "test": "npm --prefix server test"
+    "test": "npm --prefix server test",
+    "start": "node server/server.js",
+    "render-build": "npm install && npm run build && npm --prefix server install"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^5.0.2",
